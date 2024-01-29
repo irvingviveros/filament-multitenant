@@ -40,6 +40,11 @@ class AppPanelProvider extends PanelProvider
                     ->url('/admin')
                     ->visible(fn (): bool => auth()->user()->is_admin)
             ])
+            ->tenantMenuItems([
+                'register' => MenuItem::make()->label('Registrar plantel')->visible(fn (): bool => auth()->user()->is_admin),
+                'profile' => MenuItem::make()->label('Información de plantel')->visible(fn (): bool => auth()->user()->is_admin),
+                // ...
+            ])
             ->colors([
                 'danger' => Color::Red,
                 'gray' => Color::Slate,
@@ -72,7 +77,7 @@ class AppPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ])
-            ->tenant(Team::class, ownershipRelationship: 'team', slugAttribute: 'slug')
+            ->tenant(Team::class, slugAttribute: 'slug', ownershipRelationship: 'team')
             ->tenantRegistration(RegisterTeam::class)
             ->tenantProfile(EditTeamProfile::class);
     }

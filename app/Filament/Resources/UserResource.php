@@ -46,7 +46,9 @@ class UserResource extends Resource
                     ->password()
                     ->required()
                     ->maxLength(255),
-            ]);
+            ])
+            ->statePath('data')
+            ->model(User::class);
     }
 
     public static function table(Table $table): Table

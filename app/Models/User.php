@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use Filament\Facades\Filament;
 use Filament\Models\Contracts\HasTenants;
 use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -27,7 +28,8 @@ class User extends Authenticatable implements HasTenants
         'name',
         'email',
         'password',
-        'is_admin'
+        'is_admin',
+        'latest_team_id',
     ];
 
     /**
@@ -65,4 +67,15 @@ class User extends Authenticatable implements HasTenants
     {
         return $this->teams->contains($tenant);
     }
+
+//    protected static function booted()
+//    {
+//        // when a user is created, attach the user to the team
+//        static::created(function ($user) {
+//            $team = Team::find(auth()->user()->latest_team_id);
+//            //attach the current created user to the team
+//            $team->members()->attach($user->id);
+//
+//        });
+//    }
 }
