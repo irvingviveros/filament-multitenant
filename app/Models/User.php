@@ -2,9 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-
-use Filament\Facades\Filament;
 use Filament\Models\Contracts\HasTenants;
 use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -15,6 +12,14 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Collection;
 use Laravel\Sanctum\HasApiTokens;
 
+/**
+ * Class User
+ *
+ * This class represents a User in the application. It extends the Authenticatable class provided by Laravel.
+ * It implements the HasTenants interface, which means it has a relationship with the Tenant (Team) model.
+ *
+ * @package App\Models
+ */
 class User extends Authenticatable implements HasTenants
 {
     use HasApiTokens, HasFactory, Notifiable;
@@ -53,29 +58,35 @@ class User extends Authenticatable implements HasTenants
         'is_admin' => 'boolean',
     ];
 
+    /**
+     * Get the tenants (teams) that the user belongs to.
+     *
+     * @param Panel $panel The Panel instance.
+     * @return Collection The collection of teams that the user belongs to.
+     */
     public function getTenants(Panel $panel): Collection
     {
         return $this->teams;
     }
 
+    /**
+     * Define the relationship between the User and Team models.
+     *
+     * @return BelongsToMany The relationship instance.
+     */
     public function teams(): BelongsToMany
     {
         return $this->belongsToMany(Team::class);
     }
 
+    /**
+     * Check if the user can access a specific tenant (team).
+     *
+     * @param Model $tenant The tenant (team) to check.
+     * @return bool True if the user can access the tenant, false otherwise.
+     */
     public function canAccessTenant(Model $tenant): bool
     {
         return $this->teams->contains($tenant);
     }
-
-//    protected static function booted()
-//    {
-//        // when a user is created, attach the user to the team
-//        static::created(function ($user) {
-//            $team = Team::find(auth()->user()->latest_team_id);
-//            //attach the current created user to the team
-//            $team->members()->attach($user->id);
-//
-//        });
-//    }
 }
