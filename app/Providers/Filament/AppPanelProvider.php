@@ -4,6 +4,7 @@ namespace App\Providers\Filament;
 
 use App\Filament\App\Pages\Tenancy\EditTeamProfile;
 use App\Filament\App\Pages\Tenancy\RegisterTeam;
+use App\Http\Middleware\ApplyTenantScopes;
 use App\Models\Team;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -53,6 +54,10 @@ class AppPanelProvider extends PanelProvider
                 'warning' => Color::Orange,
                 'primary' => Color::Amber,
             ])
+            ->font('Inter')
+            ->navigationGroups([
+                'User Management'
+            ])
             ->discoverResources(in: app_path('Filament/App/Resources'), for: 'App\\Filament\\App\\Resources')
             ->discoverPages(in: app_path('Filament/App/Pages'), for: 'App\\Filament\\App\\Pages')
             ->pages([
@@ -78,6 +83,9 @@ class AppPanelProvider extends PanelProvider
                 Authenticate::class,
             ])
             ->tenant(Team::class, slugAttribute: 'slug', ownershipRelationship: 'team')
+            ->tenantMiddleware([
+                ApplyTenantScopes::class,
+            ], isPersistent: true)
             ->tenantRegistration(RegisterTeam::class)
             ->tenantProfile(EditTeamProfile::class);
     }
