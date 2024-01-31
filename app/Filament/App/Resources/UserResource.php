@@ -5,7 +5,9 @@ namespace App\Filament\App\Resources;
 use App\Filament\App\Resources\UserResource\Pages;
 use App\Filament\App\Resources\UserResource\RelationManagers;
 use App\Models\User;
+use Filament\Facades\Filament;
 use Filament\Forms;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -46,6 +48,14 @@ class UserResource extends Resource
                     ->password()
                     ->required()
                     ->maxLength(255),
+                Forms\Components\Select::make('roles')
+                    ->relationship(name: 'roles', titleAttribute: 'name')
+                    ->saveRelationshipsUsing(function (User $record, $state) {
+                        $record->roles()->syncWithPivotValues($state, [config('permission.column_names.team_foreign_key') => Filament::getTenant()->id]);
+                    })
+                    ->multiple()
+                    ->preload()
+                    ->searchable(),
             ])
             ->statePath('data')
             ->model(User::class);

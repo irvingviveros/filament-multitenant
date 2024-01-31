@@ -18,12 +18,14 @@ class DatabaseSeeder extends Seeder
 
         \App\Models\User::factory()->create([
             'name' => 'Admin User',
-            'email' => 'admin@example.com',
-            'is_admin' => true
+            'email' => 'admin@mail.com',
+            'is_admin' => true,
+            'password' => bcrypt('admin')
         ]);
 
         $this->call(CountrySeeder::class);
         $this->call(StateSeeder::class);
         $this->call(CitySeeder::class);
+        $this->call(RoleSeeder::class);
     }
 }
