@@ -6,6 +6,7 @@ use App\Filament\Resources\UserResource\Pages;
 use App\Filament\Resources\UserResource\RelationManagers;
 use App\Models\User;
 use Filament\Forms;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -46,6 +47,22 @@ class UserResource extends Resource
                     ->password()
                     ->required()
                     ->maxLength(255),
+                Forms\Components\Select::make('teams')
+                    ->relationship(name: 'teams', titleAttribute: 'name')
+//                    ->saveRelationshipsUsing(function (User $record, $state) {
+//                        $record->teams()->syncWithPivotValues($state, [config('permission.column_names.team_foreign_key') => session('team_id')]);
+//                    })
+                    ->multiple()
+                    ->preload()
+                    ->searchable(),
+                Forms\Components\Select::make('roles')
+                    ->relationship(name: 'roles', titleAttribute: 'name')
+                    ->saveRelationshipsUsing(function (User $record, $state) {
+                        $record->roles()->syncWithPivotValues($state, [config('permission.column_names.team_foreign_key') => session('team_id')]);
+                    })
+                    ->multiple()
+                    ->preload()
+                    ->searchable(),
             ])
             ->statePath('data')
             ->model(User::class);

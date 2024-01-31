@@ -2,6 +2,8 @@
 
 namespace App\Providers\Filament;
 
+use Althinect\FilamentSpatieRolesPermissions\FilamentSpatieRolesPermissionsPlugin;
+use Althinect\FilamentSpatieRolesPermissions\Middleware\SyncSpatiePermissionsWithFilamentTenants;
 use App\Http\Middleware\EnsureIsAdmin;
 use App\Http\Middleware\VerifyIsAdmin;
 use Filament\Http\Middleware\Authenticate;
@@ -70,6 +72,10 @@ class AdminPanelProvider extends PanelProvider
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
                 VerifyIsAdmin::class
-            ]);
+            ])
+            ->tenantMiddleware([
+                SyncSpatiePermissionsWithFilamentTenants::class,
+            ], isPersistent: true)
+            ->plugin(FilamentSpatieRolesPermissionsPlugin::make());
     }
 }

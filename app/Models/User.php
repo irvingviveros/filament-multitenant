@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Althinect\FilamentSpatieRolesPermissions\Concerns\HasSuperAdmin;
 use Filament\Models\Contracts\HasTenants;
 use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -11,6 +12,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Collection;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
 
 /**
  * Class User
@@ -22,7 +24,7 @@ use Laravel\Sanctum\HasApiTokens;
  */
 class User extends Authenticatable implements HasTenants
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles, HasSuperAdmin;
 
     /**
      * The attributes that are mass assignable.
