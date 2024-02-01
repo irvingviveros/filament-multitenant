@@ -41,6 +41,7 @@ class UserResource extends Resource
                 Forms\Components\TextInput::make('email')
                     ->email()
                     ->required()
+                    ->unique()
                     ->maxLength(255),
                 Forms\Components\DateTimePicker::make('email_verified_at'),
                 Forms\Components\TextInput::make('password')
@@ -49,9 +50,9 @@ class UserResource extends Resource
                     ->maxLength(255),
                 Forms\Components\Select::make('teams')
                     ->relationship(name: 'teams', titleAttribute: 'name')
-//                    ->saveRelationshipsUsing(function (User $record, $state) {
-//                        $record->teams()->syncWithPivotValues($state, [config('permission.column_names.team_foreign_key') => session('team_id')]);
-//                    })
+                    ->saveRelationshipsUsing(function (User $record, $state) {
+                        $record->teams()->sync($state);
+                    })
                     ->multiple()
                     ->preload()
                     ->searchable(),
