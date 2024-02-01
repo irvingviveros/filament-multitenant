@@ -33,7 +33,7 @@ class AppPanelProvider extends PanelProvider
             ->id('app')
             ->path('app')
             ->login()
-            ->registration()
+//            ->registration() // Uncomment this line to enable registration
             ->profile()
             ->userMenuItems([
                 MenuItem::make()
