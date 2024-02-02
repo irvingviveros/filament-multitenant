@@ -28,7 +28,9 @@ class ApplyTenantScopes
     public function handle(Request $request, Closure $next): Response
     {
         User::addGlobalScope(
-            fn (Builder $query) => $query->wherehas( 'teams', fn($query) => $query->where('team_id', Filament::getTenant()->id))
+            fn(Builder $query) => $query->whereHas('teams', fn($query) => $query->where('team_id', Filament::getTenant()->id))->doesntHave('roles', 'and', function ($query) {
+                $query->where('name', 'Super Admin');
+            })
         );
 
         return $next($request);
