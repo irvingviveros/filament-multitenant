@@ -33,15 +33,15 @@ class AppPanelProvider extends PanelProvider
             ->id('app')
             ->path('app')
             ->login()
-//            ->registration() // Uncomment this line to enable registration
             ->profile()
             ->userMenuItems([
                 MenuItem::make()
                     ->label('Admin')
                     ->icon('heroicon-o-cog-6-tooth')
                     ->url('/admin')
-                    ->visible(fn (): bool => auth()->user()->is_admin)
+                    ->visible(fn (): bool => auth()->user()->is_admin),
             ])
+            ->tenantMenu(fn (): bool => (auth()->user()->is_admin || auth()->user()->teams->count() > 1))
             ->tenantMenuItems([
                 'register' => MenuItem::make()->label('Registrar plantel')->visible(fn (): bool => auth()->user()->is_admin),
                 'profile' => MenuItem::make()->label('Información de plantel')->visible(fn (): bool => auth()->user()->is_admin),

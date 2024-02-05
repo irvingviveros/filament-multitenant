@@ -4,15 +4,19 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\UserResource\Pages;
 use App\Filament\Resources\UserResource\RelationManagers;
+use App\Models\Role;
 use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Hash;
 
 class UserResource extends Resource
 {
@@ -43,7 +47,6 @@ class UserResource extends Resource
                     ->required()
                     ->unique()
                     ->maxLength(255),
-                Forms\Components\DateTimePicker::make('email_verified_at'),
                 Forms\Components\TextInput::make('password')
                     ->password()
                     ->required()
@@ -53,13 +56,16 @@ class UserResource extends Resource
                     ->saveRelationshipsUsing(function (User $record, $state) {
                         $record->teams()->sync($state);
                     })
+                    ->required()
                     ->multiple()
                     ->preload()
                     ->searchable(),
                 Forms\Components\Select::make('roles')
                     ->relationship(name: 'roles', titleAttribute: 'name')
                     ->saveRelationshipsUsing(function (User $record, $state) {
-                        $record->roles()->syncWithPivotValues($state, [config('permission.column_names.team_foreign_key') => session('team_id')]);
+                        foreach ($record->teams as $team) {
+                            $record->roles()->syncWithPivotValues($state, [config('permission.column_names.team_foreign_key') => ($team->id)]);
+                        }
                     })
                     ->multiple()
                     ->preload()
@@ -77,9 +83,10 @@ class UserResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('email_verified_at')
-                    ->dateTime()
-                    ->sortable(),
+                Tables\Columns\TextColumn::make('roles')->state(function (Model $record) {
+                    return $record->getRoles()->pluck('name')->join(', ');
+                }),
+                Tables\Columns\TextColumn::make('teams.name'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

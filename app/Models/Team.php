@@ -8,11 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Session;
-use Spatie\Permission\Traits\HasPermissions;
 
 class Team extends Model
 {
-    use HasFactory, HasPermissions;
+    use HasFactory;
 
     protected $fillable = ['name', 'slug'];
 

@@ -13,6 +13,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class UserResource extends Resource
@@ -43,7 +44,6 @@ class UserResource extends Resource
                     ->email()
                     ->required()
                     ->maxLength(255),
-                Forms\Components\DateTimePicker::make('email_verified_at'),
                 Forms\Components\TextInput::make('password')
                     ->password()
                     ->required()
@@ -51,11 +51,11 @@ class UserResource extends Resource
                 Forms\Components\Select::make('roles')
                     ->relationship(name: 'roles', titleAttribute: 'name')
                     ->saveRelationshipsUsing(function (User $record, $state) {
-                        $record->roles()->syncWithPivotValues($state, [config('permission.column_names.team_foreign_key') => Filament::getTenant()->id]);
+                        $record->roles()->syncWithPivotValues($state, [config('permission.column_names.team_foreign_key') => getPermissionsTeamId()]);
                     })
                     ->multiple()
-                    ->preload()
-                    ->searchable(),
+                    ->searchable()
+                    ->preload(),
             ])
             ->statePath('data')
             ->model(User::class);
@@ -69,9 +69,7 @@ class UserResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('email_verified_at')
-                    ->dateTime()
-                    ->sortable(),
+                Tables\Columns\TextColumn::make('roles.name'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
