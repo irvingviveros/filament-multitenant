@@ -69,7 +69,8 @@ class UserResource extends Resource
                     })
                     ->multiple()
                     ->preload()
-                    ->searchable(),
+                    ->searchable()
+                    ->hidden(fn ($livewire) => $livewire instanceof Pages\EditUser),
             ])
             ->statePath('data')
             ->model(User::class);
@@ -116,7 +117,7 @@ class UserResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\RolesRelationManager::class
         ];
     }
 

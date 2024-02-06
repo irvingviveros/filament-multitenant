@@ -3,6 +3,7 @@
 namespace App\Filament\App\Resources;
 
 use App\Filament\App\Resources\UserResource\Pages;
+use App\Filament\App\Resources\UserResource\Pages\EditUser;
 use App\Filament\App\Resources\UserResource\RelationManagers;
 use App\Models\User;
 use Filament\Facades\Filament;
@@ -55,7 +56,8 @@ class UserResource extends Resource
                     })
                     ->multiple()
                     ->searchable()
-                    ->preload(),
+                    ->preload()
+                ->hidden(fn ($livewire) => $livewire instanceof EditUser),
             ])
             ->statePath('data')
             ->model(User::class);
@@ -99,7 +101,7 @@ class UserResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            'roles' => RelationManagers\RolesRelationManager::class,
         ];
     }
 

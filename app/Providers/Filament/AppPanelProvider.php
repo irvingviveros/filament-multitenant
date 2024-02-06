@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use Althinect\FilamentSpatieRolesPermissions\Middleware\SyncSpatiePermissionsWithFilamentTenants;
 use App\Filament\App\Pages\Tenancy\EditTeamProfile;
 use App\Filament\App\Pages\Tenancy\RegisterTeam;
 use App\Http\Middleware\ApplyTenantScopes;
@@ -86,6 +87,7 @@ class AppPanelProvider extends PanelProvider
             ])
             ->tenant(Team::class, slugAttribute: 'slug', ownershipRelationship: 'team')
             ->tenantMiddleware([
+                SyncSpatiePermissionsWithFilamentTenants::class,
                 ApplyTenantScopes::class,
             ], isPersistent: true)
             ->tenantRegistration(RegisterTeam::class)
