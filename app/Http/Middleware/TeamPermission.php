@@ -7,9 +7,9 @@ class TeamPermission
 {
     public function handle($request, \Closure $next){
         if(!empty(auth()->user())){
+            $request->user()->unsetRelation('roles')->unsetRelation('permissions');
             // session value set on login
             setPermissionsTeamId(session('team_id'));
-            error_log('TeamPermission: ' . session('team_id'));
         }
         return $next($request);
     }

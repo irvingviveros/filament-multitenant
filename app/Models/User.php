@@ -35,8 +35,6 @@ class User extends Authenticatable implements HasTenants
         'name',
         'email',
         'password',
-        'is_admin',
-        'latest_team_id',
     ];
 
     /**
@@ -90,5 +88,21 @@ class User extends Authenticatable implements HasTenants
     public function canAccessTenant(Model $tenant): bool
     {
         return $this->teams->contains($tenant);
+    }
+
+    /**
+     * Retrieve all roles associated with the user.
+     *
+     * This method defines a many-to-many relationship between the User and Role models.
+     * It uses the 'model_has_roles' pivot table to establish this relationship.
+     * The 'model_id' and 'role_id' are used as the foreign keys in the pivot table.
+     *
+     * @return BelongsToMany The relationship instance.
+     */
+    public function getRoles(): BelongsToMany
+    {
+        // The 'model_id' and 'role_id' are used as the foreign keys in the pivot table. Concatenate the team id where the permission of the user belongs to.
+        return $this->belongsToMany(Role::class, 'model_has_roles', 'model_id', 'role_id')
+            ->withPivot('team_id');
     }
 }
