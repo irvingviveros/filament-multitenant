@@ -1,0 +1,67 @@
+models:
+  Student:
+    national_id: string unique nullable default:N/A # CURP
+    enrollment: string nullable   # Matricula
+    admission_no: string nullable # No. de admisión
+    admission_date: date nullable # Fecha de admisión
+    payment_reference: string nullable default:N/A  # Referencia de pago
+    first_name: string:200  # Nombre
+    paternal_surname: string:100 # Apellido paterno
+    maternal_surname: string:100 nullable  # Apellido materno
+    birth_date: date  # Fecha de nacimiento
+    occupation: string:100 nullable default:N/A # Ocupación
+    nationality: string:100 nullable default:Mexicana # Nacionalidad
+    personal_email: string:255 unique nullable default:N/A  # Correo personal
+    personal_phone: string unique nullable default:N/A  # Teléfono personal
+    marital_status: string nullable default:N/A # Estado civil
+    address: string:255 nullable  # Domicilio
+    street_number: string:10 nullable # No. de calle
+    interior_number: string:10 nullable # No. interior
+    neighborhood: string:100 nullable # Colonia
+    between_streets: string:200 nullable  # Entre calles
+    zip: string:10 nullable # Código postal
+    city: string:100 nullable # Ciudad
+    state: string:100 nullable  # Estado
+    inscription_date: string:100 nullable # Fecha de inscripción
+    sex: string:20 nullable # Sexo
+    gender: string:50 nullable  # Género
+    blood_group: string:15 nullable # Grupo sanguíneo
+    allergies: string:250 nullable  # Alergias
+    ailments: string:250 nullable # Enfermedades
+    guardian_relationship: string:250 default:N/A  # Parentesco
+    status: tinyInteger default:1 # Estatus
+    team_id: id foreign  # Nivel de estudios
+    user_id: integer nullable # Usuario
+    guardian_id: id foreign nullable  # Tutor
+    scholarship_id: integer nullable  # Beca
+    career_id: integer nullable # Carrera
+    created_by: integer nullable  # Creado por
+    modified_by: integer nullable # Modificado por
+    softDeletes
+
+    relationships:
+      belongsTo: Team, Guardian, User
+
+  Guardian:
+    first_name: string:200  # Nombre
+    paternal_surname: string:100 # Apellido paterno
+    maternal_surname: string:100 nullable  # Apellido materno
+    student_relationship: string # Parentesco
+    address: string:255 nullable  # Domicilio
+    street_number: string:10 nullable # No. de calle
+    neighborhood: string:100 nullable # Colonia
+    between_streets: string:200 nullable  # Entre calles
+    zip: string:10 nullable # Código postal
+    city: string:100 nullable # Ciudad
+    state: string:100 nullable  # Estado
+    personal_email: string nullable # Correo personal
+    personal_phone: string nullable # Teléfono personal
+    user_id: integer nullable # Usuario
+    created_by: integer nullable  # Creado por
+    modified_by: integer nullable # Modificado por
+    softDeletes
+
+    relationships:
+      hasMany: Student
+      belongsToMany: Team
+      belongsTo: User

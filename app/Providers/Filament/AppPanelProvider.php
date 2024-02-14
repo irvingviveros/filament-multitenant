@@ -16,6 +16,7 @@ use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
+use Filament\Support\Enums\MaxWidth;
 use Filament\Widgets;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
@@ -49,13 +50,10 @@ class AppPanelProvider extends PanelProvider
                 // ...
             ])
             ->colors([
-                'danger' => Color::Red,
+                'primary' => Color::Blue,
                 'gray' => Color::Slate,
-                'info' => Color::Blue,
-                'success' => Color::Emerald,
-                'warning' => Color::Orange,
-                'primary' => Color::Amber,
             ])
+            ->maxContentWidth(MaxWidth::Full)
             ->font('Inter')
             ->navigationGroups([
                 'User Management'
@@ -70,6 +68,7 @@ class AppPanelProvider extends PanelProvider
                 Widgets\AccountWidget::class,
                 Widgets\FilamentInfoWidget::class,
             ])
+            ->spa()
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
