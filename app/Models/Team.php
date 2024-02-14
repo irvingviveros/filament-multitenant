@@ -68,4 +68,14 @@ class Team extends Model
     {
         return $this->hasMany(Permission::class);
     }
+
+    public function students(): HasMany
+    {
+        return $this->hasMany(Student::class);
+    }
+
+    public function guardians(): HasMany
+    {
+        return $this->hasMany(Guardian::class);
+    }
 }

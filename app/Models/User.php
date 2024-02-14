@@ -8,6 +8,7 @@ use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Collection;
@@ -104,5 +105,15 @@ class User extends Authenticatable implements HasTenants
         // The 'model_id' and 'role_id' are used as the foreign keys in the pivot table. Concatenate the team id where the permission of the user belongs to.
         return $this->belongsToMany(Role::class, 'model_has_roles', 'model_id', 'role_id')
             ->withPivot('team_id');
+    }
+
+    public function student(): HasOne
+    {
+        return $this->HasOne(Student::class);
+    }
+
+    public function guardian(): HasOne
+    {
+        return $this->HasOne(Guardian::class);
     }
 }
