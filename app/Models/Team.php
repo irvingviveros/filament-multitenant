@@ -78,4 +78,9 @@ class Team extends Model
     {
         return $this->hasMany(Guardian::class);
     }
+
+    public function careers(): HasMany
+    {
+        return $this->hasMany(Career::class);
+    }
 }

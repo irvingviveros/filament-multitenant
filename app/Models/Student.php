@@ -69,6 +69,7 @@ class Student extends Model
         'team_id' => 'integer',
         'user_id' => 'integer',
         'guardian_id' => 'integer',
+        'career_id' => 'integer',
     ];
 
     public function team(): BelongsTo
@@ -84,5 +85,10 @@ class Student extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function career(): BelongsTo
+    {
+        return $this->belongsTo(Career::class);
     }
 }

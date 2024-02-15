@@ -49,7 +49,7 @@ return new class extends Migration
             $table->foreignId('user_id')->nullable();
             $table->foreignId('guardian_id')->nullable()->constrained();
             $table->integer('scholarship_id')->nullable();
-            $table->integer('career_id')->nullable();
+            $table->foreignId('career_id')->nullable();
             $table->integer('created_by')->nullable();
             $table->integer('modified_by')->nullable();
             $table->timestamps();
