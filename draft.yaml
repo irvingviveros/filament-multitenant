@@ -40,7 +40,7 @@ models:
     softDeletes
 
     relationships:
-      belongsTo: Team, Guardian, User
+      belongsTo: Team, Guardian, User, Career
 
   Guardian:
     first_name: string:200  # Nombre
@@ -65,3 +65,18 @@ models:
       hasMany: Student
       belongsToMany: Team
       belongsTo: User
+
+  Career:
+    name: string:100 unique  # Nombre
+    enrollment: string:100 nullable  # Matricula
+    description: string:255 nullable  # Descripción
+    opening_date: date nullable  # Fecha de apertura
+    status: string default:Activo # Estatus
+    created_by: integer nullable  # Creado por
+    modified_by: integer nullable # Modificado por
+    team_id: id foreign nullable # Nivel de estudios
+    softDeletes
+
+    relationships:
+      hasMany: Student
+      belongsTo: Team

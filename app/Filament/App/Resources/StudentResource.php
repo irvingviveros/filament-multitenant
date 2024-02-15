@@ -213,12 +213,8 @@ class StudentResource extends Resource
 
                         // exclusive university field
                         Select::make('career_id')
+                            ->relationship(name: 'career', titleAttribute: 'name')
                             ->label('Carrera a cursar')
-                            ->required()
-                            ->options([
-                                '1' => 'Ingeniería',
-                                '2' => 'Medicina'
-                            ])
                             ->required(Filament::getTenant()->slug === 'universidad' || Filament::getTenant()->slug === 'university')
                             ->visible(Filament::getTenant()->slug === 'universidad' || Filament::getTenant()->slug === 'university'),
                         Select::make('scholarship_id')
@@ -288,7 +284,7 @@ class StudentResource extends Resource
                     ->label('MATRÍCULA')
                     ->visible(fn () => Filament::getTenant()->slug === 'universidad' || Filament::getTenant()->slug === 'university')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('career_id')
+                Tables\Columns\TextColumn::make('career.name')
                     ->label('CARRERA')
                     ->visible(fn () => Filament::getTenant()->slug === 'universidad' || Filament::getTenant()->slug === 'university')
                     ->sortable(),

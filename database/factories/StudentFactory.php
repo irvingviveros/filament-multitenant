@@ -58,7 +58,7 @@ class StudentFactory extends Factory
             'user_id' => ::factory(),
             'guardian_id' => Guardian::factory(),
             'scholarship_id' => $this->faker->numberBetween(-10000, 10000),
-            'career_id' => $this->faker->numberBetween(-10000, 10000),
+            'career_id' => ::factory(),
             'created_by' => $this->faker->numberBetween(-10000, 10000),
             'modified_by' => $this->faker->numberBetween(-10000, 10000),
         ];
