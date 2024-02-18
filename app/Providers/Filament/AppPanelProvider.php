@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use Althinect\FilamentSpatieRolesPermissions\FilamentSpatieRolesPermissionsPlugin;
 use Althinect\FilamentSpatieRolesPermissions\Middleware\SyncSpatiePermissionsWithFilamentTenants;
 use App\Filament\App\Pages\Tenancy\EditTeamProfile;
 use App\Filament\App\Pages\Tenancy\RegisterTeam;
@@ -89,6 +90,10 @@ class AppPanelProvider extends PanelProvider
                 SyncSpatiePermissionsWithFilamentTenants::class,
                 ApplyTenantScopes::class,
             ], isPersistent: true)
+            ->tenantMiddleware([
+                SyncSpatiePermissionsWithFilamentTenants::class,
+            ], isPersistent: true)
+            ->plugin(FilamentSpatieRolesPermissionsPlugin::make())
             ->tenantRegistration(RegisterTeam::class)
             ->tenantProfile(EditTeamProfile::class);
     }
