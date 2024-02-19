@@ -32,8 +32,6 @@ class Team extends Model
     {
         parent::boot();
 
-        Session::put('team_id', auth()->user()->latest_team_id);
-        error_log('Session team_id: ' . Session::get('team_id'));
         // here assign this team to a global user with global default role
         self::created(function ($teamModel) {
             // get session team_id to restore it later (maybe optional)

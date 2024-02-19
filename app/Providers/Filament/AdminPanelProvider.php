@@ -70,10 +70,6 @@ class AdminPanelProvider extends PanelProvider
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
                 VerifyIsAdmin::class
-            ])
-            ->tenantMiddleware([
-                SyncSpatiePermissionsWithFilamentTenants::class,
-            ], isPersistent: true)
-            ->plugin(FilamentSpatieRolesPermissionsPlugin::make());
+            ]);
     }
 }
