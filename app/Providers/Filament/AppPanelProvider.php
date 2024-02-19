@@ -7,7 +7,6 @@ use Althinect\FilamentSpatieRolesPermissions\Middleware\SyncSpatiePermissionsWit
 use App\Filament\App\Pages\Tenancy\EditTeamProfile;
 use App\Filament\App\Pages\Tenancy\RegisterTeam;
 use App\Http\Middleware\ApplyTenantScopes;
-use App\Http\Middleware\TeamPermission;
 use App\Models\Team;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -77,7 +76,6 @@ class AppPanelProvider extends PanelProvider
                 AuthenticateSession::class,
                 ShareErrorsFromSession::class,
                 VerifyCsrfToken::class,
-                TeamPermission::class,
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
