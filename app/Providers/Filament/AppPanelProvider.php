@@ -90,9 +90,6 @@ class AppPanelProvider extends PanelProvider
                 SyncSpatiePermissionsWithFilamentTenants::class,
                 ApplyTenantScopes::class,
             ], isPersistent: true)
-            ->tenantMiddleware([
-                SyncSpatiePermissionsWithFilamentTenants::class,
-            ], isPersistent: true)
             ->plugin(FilamentSpatieRolesPermissionsPlugin::make())
             ->tenantRegistration(RegisterTeam::class)
             ->tenantProfile(EditTeamProfile::class);
