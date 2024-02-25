@@ -20,6 +20,7 @@ return new class extends Migration
             $table->foreignId('student_id')->constrained();
             $table->integer('created_by')->nullable();
             $table->integer('modified_by')->nullable();
+            $table->foreignId('team_id')->nullable()->constrained();
             $table->timestamps();
             $table->softDeletes();
         });

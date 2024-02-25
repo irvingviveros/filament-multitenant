@@ -23,12 +23,13 @@ class CareerFactory extends Factory
     {
         return [
             'name' => $this->faker->name(),
-            'enrollment' => $this->faker->regexify('[A-Za-z0-9]{6}'),
+            'enrollment' => $this->faker->regexify('[A-Za-z0-9]{100}'),
             'description' => $this->faker->text(),
             'opening_date' => $this->faker->date(),
             'status' => $this->faker->word(),
             'created_by' => $this->faker->numberBetween(-10000, 10000),
             'modified_by' => $this->faker->numberBetween(-10000, 10000),
+            'team_id' => Team::factory(),
         ];
     }
 }

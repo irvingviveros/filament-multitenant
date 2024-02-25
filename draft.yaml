@@ -91,10 +91,12 @@ models:
     note: text nullable  # Nota
     create_by: integer nullable  # Creado por
     modified_by: integer nullable # Modificado por
+    team_id: id foreign nullable # Nivel de estudios
     softDeletes
 
     relationships:
       hasMany: StudentReceipt
+      belongsTo: Team
 
   StudentReceipt:
     sheet_id: integer unique  # Hoja
@@ -102,7 +104,8 @@ models:
     student_id: id foreign # Estudiante
     created_by: integer nullable  # Creado por
     modified_by: integer nullable # Modificado por
+    team_id: id foreign nullable # Nivel de estudios
     softDeletes
 
     relationships:
-      belongsTo: Student, Receipt
+      belongsTo: Student, Receipt, Team

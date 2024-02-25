@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 use App\Models\Receipt;
 use App\Models\Student;
 use App\Models\StudentReceipt;
+use App\Models\Team;
 
 class StudentReceiptFactory extends Factory
 {
@@ -28,6 +29,7 @@ class StudentReceiptFactory extends Factory
             'student_id' => Student::factory(),
             'created_by' => $this->faker->numberBetween(-10000, 10000),
             'modified_by' => $this->faker->numberBetween(-10000, 10000),
+            'team_id' => Team::factory(),
         ];
     }
 }

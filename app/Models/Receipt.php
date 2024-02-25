@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -26,6 +27,7 @@ class Receipt extends Model
         'note',
         'create_by',
         'modified_by',
+        'team_id',
     ];
 
     /**
@@ -37,10 +39,16 @@ class Receipt extends Model
         'id' => 'integer',
         'amount' => 'decimal:2',
         'payment_date' => 'datetime',
+        'team_id' => 'integer',
     ];
 
     public function studentReceipts(): HasMany
     {
         return $this->hasMany(StudentReceipt::class);
+    }
+
+    public function team(): BelongsTo
+    {
+        return $this->belongsTo(Team::class);
     }
 }

@@ -5,6 +5,7 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 use App\Models\Receipt;
+use App\Models\Team;
 
 class ReceiptFactory extends Factory
 {
@@ -30,6 +31,7 @@ class ReceiptFactory extends Factory
             'note' => $this->faker->text(),
             'create_by' => $this->faker->numberBetween(-10000, 10000),
             'modified_by' => $this->faker->numberBetween(-10000, 10000),
+            'team_id' => Team::factory(),
         ];
     }
 }
