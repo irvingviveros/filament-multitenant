@@ -2,9 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Models\Career;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
-use App\Models\;
 use App\Models\Guardian;
 use App\Models\Student;
 use App\Models\Team;
@@ -55,10 +55,10 @@ class StudentFactory extends Factory
             'guardian_relationship' => $this->faker->regexify('[A-Za-z0-9]{250}'),
             'status' => $this->faker->numberBetween(-8, 8),
             'team_id' => Team::factory(),
-            'user_id' => ::factory(),
+            'user_id' => User::factory(),
             'guardian_id' => Guardian::factory(),
             'scholarship_id' => $this->faker->numberBetween(-10000, 10000),
-            'career_id' => ::factory(),
+            'career_id' => Career::factory(),
             'created_by' => $this->faker->numberBetween(-10000, 10000),
             'modified_by' => $this->faker->numberBetween(-10000, 10000),
         ];
