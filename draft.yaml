@@ -80,3 +80,29 @@ models:
     relationships:
       hasMany: Student
       belongsTo: Team
+
+  Receipt:
+    sheet: integer nullable  # Hoja
+    payment_method: string # Método de pago
+    payment_concept: string  # Concepto de pago
+    amount: decimal:10,2  # Monto
+    amount_text: string:255 nullable  # Monto en texto
+    payment_date: dateTime  # Fecha de pago
+    note: text nullable  # Nota
+    create_by: integer nullable  # Creado por
+    modified_by: integer nullable # Modificado por
+    softDeletes
+
+    relationships:
+      hasMany: StudentReceipt
+
+  StudentReceipt:
+    sheet_id: integer unique  # Hoja
+    receipt_id: id foreign constrained # Recibo
+    student_id: id foreign # Estudiante
+    created_by: integer nullable  # Creado por
+    modified_by: integer nullable # Modificado por
+    softDeletes
+
+    relationships:
+      belongsTo: Student, Receipt

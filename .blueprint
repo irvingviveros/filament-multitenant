@@ -2,14 +2,30 @@ created:
     - database/factories/StudentFactory.php
     - database/factories/GuardianFactory.php
     - database/factories/CareerFactory.php
-    - database/migrations/2024_02_15_063608_create_students_table.php
-    - database/migrations/2024_02_15_063609_create_guardians_table.php
-    - database/migrations/2024_02_15_063610_create_careers_table.php
-    - database/migrations/2024_02_15_063611_create_guardian_team_table.php
+    - database/factories/ReceiptFactory.php
+    - database/factories/StudentReceiptFactory.php
+    - database/migrations/2024_02_25_024818_create_students_table.php
+    - database/migrations/2024_02_25_024819_create_guardians_table.php
+    - database/migrations/2024_02_25_024820_create_careers_table.php
+    - database/migrations/2024_02_25_024821_create_receipts_table.php
+    - database/migrations/2024_02_25_024822_create_student_receipts_table.php
+    - database/migrations/2024_02_25_024823_create_guardian_team_table.php
     - app/Models/Student.php
     - app/Models/Guardian.php
     - app/Models/Career.php
+    - app/Models/Receipt.php
+    - app/Models/StudentReceipt.php
 models:
+    City: { state_id: 'biginteger unsigned', name: string }
+    Country: { name: string, code: string, phonecode: string }
+    Department: { team_id: 'biginteger unsigned', name: string }
+    Employee: { team_id: 'biginteger unsigned', country_id: 'biginteger unsigned', state_id: 'biginteger unsigned', city_id: 'biginteger unsigned', department_id: 'biginteger unsigned', first_name: string, last_name: string, middle_name: string, address: string, zip_code: string, date_of_birth: date, date_hired: date }
+    Permission: { name: string, guard_name: string }
+    Role: { team_id: 'biginteger unsigned nullable', name: string, guard_name: string }
+    State: { country_id: 'biginteger unsigned', name: string }
+    Team: { name: string, slug: string }
     Student: { national_id: 'string unique nullable default:N/A', enrollment: 'string nullable', admission_no: 'string nullable', admission_date: 'date nullable', payment_reference: 'string nullable default:N/A', first_name: 'string:200', paternal_surname: 'string:100', maternal_surname: 'string:100 nullable', birth_date: date, occupation: 'string:100 nullable default:N/A', nationality: 'string:100 nullable default:Mexicana', personal_email: 'string:255 unique nullable default:N/A', personal_phone: 'string unique nullable default:N/A', marital_status: 'string nullable default:N/A', address: 'string:255 nullable', street_number: 'string:10 nullable', interior_number: 'string:10 nullable', neighborhood: 'string:100 nullable', between_streets: 'string:200 nullable', zip: 'string:10 nullable', city: 'string:100 nullable', state: 'string:100 nullable', inscription_date: 'string:100 nullable', sex: 'string:20 nullable', gender: 'string:50 nullable', blood_group: 'string:15 nullable', allergies: 'string:250 nullable', ailments: 'string:250 nullable', guardian_relationship: 'string:250 default:N/A', status: 'tinyInteger default:1', team_id: 'id foreign', user_id: 'integer nullable', guardian_id: 'id foreign nullable', scholarship_id: 'integer nullable', career_id: 'integer nullable', created_by: 'integer nullable', modified_by: 'integer nullable', softdeletes: softDeletes, relationships: { belongsTo: 'Team, Guardian, User, Career' } }
     Guardian: { first_name: 'string:200', paternal_surname: 'string:100', maternal_surname: 'string:100 nullable', student_relationship: string, address: 'string:255 nullable', street_number: 'string:10 nullable', neighborhood: 'string:100 nullable', between_streets: 'string:200 nullable', zip: 'string:10 nullable', city: 'string:100 nullable', state: 'string:100 nullable', personal_email: 'string nullable', personal_phone: 'string nullable', user_id: 'integer nullable', created_by: 'integer nullable', modified_by: 'integer nullable', softdeletes: softDeletes, relationships: { hasMany: Student, belongsToMany: Team, belongsTo: User } }
-    Career: { name: 'string:100 unique', enrollment: 'string:100 nullable', description: 'string:255 nullable', opening_date: 'date nullable', status: 'string default:Activo', created_by: 'integer nullable', modified_by: 'integer nullable', team_id: 'id foreign nullable default:1', softdeletes: softDeletes, relationships: { hasMany: Student, belongsTo: Team } }
+    Career: { name: 'string:100 unique', enrollment: 'string:100 nullable', description: 'string:255 nullable', opening_date: 'date nullable', status: 'string default:Activo', created_by: 'integer nullable', modified_by: 'integer nullable', team_id: 'id foreign nullable', softdeletes: softDeletes, relationships: { hasMany: Student, belongsTo: Team } }
+    Receipt: { sheet: 'integer nullable', payment_method: string, payment_concept: string, amount: 'decimal:10,2', amount_text: 'string:255 nullable', payment_date: dateTime, note: 'text nullable', create_by: 'integer nullable', modified_by: 'integer nullable', softdeletes: softDeletes, relationships: { hasMany: StudentReceipt } }
+    StudentReceipt: { sheet_id: 'integer unique', receipt_id: 'id foreign constrained', student_id: 'id foreign', created_by: 'integer nullable', modified_by: 'integer nullable', softdeletes: softDeletes, relationships: { belongsTo: 'Student, Receipt' } }

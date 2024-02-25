@@ -13,16 +13,17 @@ return new class extends Migration
     {
         Schema::disableForeignKeyConstraints();
 
-        Schema::create('careers', function (Blueprint $table) {
+        Schema::create('receipts', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 100)->unique();
-            $table->string('enrollment', 100)->nullable();
-            $table->string('description', 255)->nullable();
-            $table->date('opening_date')->nullable();
-            $table->string('status')->default('Activo');
-            $table->integer('created_by')->nullable();
+            $table->integer('sheet')->nullable();
+            $table->string('payment_method');
+            $table->string('payment_concept');
+            $table->decimal('amount', 10, 2);
+            $table->string('amount_text', 255)->nullable();
+            $table->dateTime('payment_date');
+            $table->text('note')->nullable();
+            $table->integer('create_by')->nullable();
             $table->integer('modified_by')->nullable();
-            $table->foreignId('team_id')->nullable()->constrained()->default('1');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -35,6 +36,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('careers');
+        Schema::dropIfExists('receipts');
     }
 };
